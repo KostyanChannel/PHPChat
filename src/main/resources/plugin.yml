@@ -1,0 +1,5 @@
+name: PHPChat
+version: 1.0
+main: ru.kdev.phpchat.PHPChat
+description: PHPChat
+author: KostyanDeveloper

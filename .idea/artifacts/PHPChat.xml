@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PHPChat">
+    <output-path>$PROJECT_DIR$/../servak/plugins</output-path>
+    <root id="archive" name="PHPChat.jar">
+      <element id="module-output" name="PHPChat" />
+    </root>
+  </artifact>
+</component>
