@@ -20,6 +20,7 @@ public class PHPChat extends JavaPlugin implements Listener {
             saveDefaultConfig();
         }
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
+        Metrics metrics = new Metrics(this);
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
             public void run() {
