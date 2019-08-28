@@ -1,1 +1,8 @@
+# Куда будем отправлять POST-запрос message (Значение: "ник: сообщение")
 url: "http://test1.ru/chat.php"
+# Откуда будем смотреть что написать в чат
+last_chat_url: "http://test1.ru/last_chat.txt"
+# Куда будем отправлять POST-запрос sended со значнием 1
+sended_url: "http://test1.ru/chat.php"
+# Сообщение в чат
+chat_mess: "&7[&dСайт&7] &b{MESS}"

@@ -1,6 +1,7 @@
 package ru.kdev.phpchat;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -19,6 +20,52 @@ public class PHPChat extends JavaPlugin implements Listener {
             saveDefaultConfig();
         }
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+            public void run() {
+                if(getConfig().contains("last_chat_url") && getConfig().contains("sended_url"))
+                {
+                    URL url = null;
+                    try {
+                        url = new URL(getConfig().getString("last_chat_url"));
+                    } catch (MalformedURLException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        assert url != null;
+                        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+                        String inputLine;
+                        while ((inputLine = in.readLine()) != null)
+                        {
+                            Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("chat_mess").replace("{MESS}", inputLine)));
+                            StringBuffer sb = null;
+                            String data = URLEncoder.encode("sended", "UTF-8") + "="
+                                    + 1;
+                            URL url1 = new URL(getConfig().getString("sended_url"));
+                            HttpURLConnection conn = null;
+                            conn = (HttpURLConnection) url1.openConnection();
+                            conn.setDoOutput(true);
+                            conn.setRequestMethod("POST");
+                            OutputStreamWriter osw = null;
+                            osw = new OutputStreamWriter(
+                                    conn.getOutputStream());
+                            osw.write(data);
+                            osw.flush();
+                            BufferedReader br = new BufferedReader(new InputStreamReader(
+                                    conn.getInputStream()));
+                            String in2 = "";
+                            sb = new StringBuffer();
+                            if ((in2 = br.readLine()) != null) break;
+                            sb.append(in2).append("\n");
+                            osw.close();
+                            br.close();
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        }, 0L, 100L);
     }
 
     @EventHandler
